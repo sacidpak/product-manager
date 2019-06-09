@@ -3,32 +3,32 @@
     <div class="row">
       <div class="col-12 mb-5 card mt-5 shadow">
         <div class="card-body">
-          <h3>Ürün Listesi</h3>
+          <h3>Product List</h3>
           <hr>
-          <table class="table table-hover table-striped table-bordered">
+          <table v-if="getProductsList.length > 0" class="table table-hover table-striped table-bordered">
             <thead>
               <th>id</th>
-              <th>Ürün Adı</th>
-              <th>Adet</th>
-              <th>Fiyat</th>
-              <th>Açıklama</th>
+              <th>Title</th>
+              <th>Count</th>
+              <th>Price</th>
+              <th>Description</th>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="(product,index) in getProductsList" :key="index">
                 <td class="align-middle text-center">
-                  <span class="badge badge-info">E564fghdE563df</span>
+                  <span class="badge badge-info">{{product.key}}</span>
                 </td>
-                <td class="align-middle text-center">Deneme</td>
-                <td class="align-middle text-center">1</td>
-                <td style="width: 120px;">10,000</td>
-                <td class="align-middle">Örnek Açıklama</td>
+                <td class="align-middle text-center">{{product.title}}</td>
+                <td :class="getCountColor(product.count)" class="align-middle text-center">{{product.count}}</td>
+                <td style="width: 120px;">{{product.price | currency}}</td>
+                <td class="align-middle">{{product.description}}</td>
               </tr>
             </tbody>
           </table>
-          <div class="alert alert-warning">
-            <strong>Henüz Burada Bir Kayıt Bulamadık</strong>
+          <div v-else class="alert alert-warning">
+            <strong>Product not found</strong>
             <br>
-            <small>Kayıt Eklemek için Ürün İşlemleri menüsünden yararlanabilirsiniz</small>
+            <small>You can use the <strong>Product Purchase</strong> menu to add a product</small>
           </div>
         </div>
       </div>
@@ -36,7 +36,22 @@
   </div>
 </template>
 <script>
-export default {};
+import {mapGetters} from "vuex"
+export default {
+  computed : {
+    ...mapGetters([
+      "getProductsList"
+    ]),
+  },
+  methods : {
+    getCountColor(count){
+      return {
+        "bg-danger text-white" : count == 0 || count == null,
+        "bg-success text-white" : count > 0
+      }
+    }
+  }
+};
 </script>
 
 <style scoped>

@@ -1,7 +1,9 @@
 <template>
   <div>
     <app-header></app-header>
-    <router-view></router-view>
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
     <app-footer></app-footer>
   </div>
 </template>
@@ -13,29 +15,32 @@ export default {
   components : {
     appHeader : Header,
     appFooter : Footer
+  },
+  created(){
+    this.$store.dispatch("getTradeResult")
+    this.$store.dispatch("initApp")
   }
 }
 </script>
 
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+body{
+  background-color: #eeedef;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.fade-enter{
+  opacity: 0;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.fade-enter-active{
+  transition: opacity 0.4s ease-out;
+}
+
+.fade-leave{
+}
+
+.fade-leave-active{
+  transition: opacity 0.4s ease-out;
+  opacity: 0;
 }
 </style>
