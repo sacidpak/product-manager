@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="loading">
+    <div class="loading" :style="isLoading">
       <div class="lds-ripple">
         <div></div>
         <div></div>
